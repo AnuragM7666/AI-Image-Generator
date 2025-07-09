@@ -30,3 +30,12 @@ export const GenerateImage = async (data) => {
         throw error;
     }
 }
+
+export const deletePost = async (id) => {
+    try {
+        return await API.delete(`/post/${id}`);
+    } catch (error) {
+        console.error("Error deleting post:", error);
+        throw error;
+    }
+}

@@ -40,3 +40,22 @@ export const createPost = async (req, res, next) => {
         );
     }
 };
+
+export const deletePost = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const post = await Post.findById(id);
+        if (!post) {
+            return next(createError(404, "Post not found"));
+        }
+        // Optionally, delete the image from Cloudinary if you store the public_id
+        // For now, just delete the post from DB
+        await Post.findByIdAndDelete(id);
+        return res.status(200).json({ success: true, message: "Post deleted successfully" });
+    } catch (error) {
+        next(createError(
+            error.status,
+            error?.response?.data?.error?.message || error?.message)
+        );
+    }
+};

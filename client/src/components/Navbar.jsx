@@ -16,6 +16,26 @@ const Nav = styled.nav`
     top: 0;
     z-index: 100;
     backdrop-filter: blur(8px);
+    border-radius: 0 0 32px 32px;
+    overflow: hidden;
+    /* Sliding border effect */
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0%;
+        height: 4px;
+        background: linear-gradient(90deg, ${({ theme }) => theme.primary}, ${({ theme }) => theme.accent});
+        border-radius: 0 0 32px 32px;
+        transition: width 0.7s cubic-bezier(0.77,0,0.175,1);
+        z-index: 101;
+        animation: slideInBorder 1.2s cubic-bezier(0.77,0,0.175,1) forwards;
+    }
+    @keyframes slideInBorder {
+        from { width: 0%; }
+        to { width: 100%; }
+    }
 `;
 
 const Logo = styled.div`
@@ -28,6 +48,16 @@ const Logo = styled.div`
     gap: 8px;
 `;
 
+const LogoIcon = styled.img`
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    object-fit: cover;
+    margin-right: 10px;
+    box-shadow: 0 2px 8px 0 ${({ theme }) => theme.primary + '22'};
+    background: #fff;
+`;
+
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,7 +65,10 @@ const Navbar = () => {
 
   return (
     <Nav>
-      <Logo>GenAI</Logo>
+      <Logo>
+        <LogoIcon src="/mainLogo.png" alt="Main Logo" />
+        GenAI
+      </Logo>
       {path[1] === "post" ? (
         <Button
           onClick={() => navigate("/")}

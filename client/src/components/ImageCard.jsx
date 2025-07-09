@@ -2,7 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Avatar from '@mui/material/Avatar';
-import { DownloadRounded } from '@mui/icons-material';
+import { DownloadRounded, Delete } from '@mui/icons-material';
 import FileSaver from "file-saver";
 
 const Card = styled.div`
@@ -77,6 +77,24 @@ const DownloadIcon = styled(DownloadRounded)`
     }
 `;
 
+const DeleteIcon = styled(Delete)`
+    && {
+        color: #fff;
+        background: #e74c3c;
+        border-radius: 50%;
+        padding: 4px;
+        font-size: 2rem;
+        box-shadow: 0 2px 8px 0 #e74c3c33;
+        transition: background 0.2s, color 0.2s;
+        cursor: pointer;
+        margin-left: 8px;
+        &:hover {
+            background: #fff;
+            color: #e74c3c;
+        }
+    }
+`;
+
 const StyledImage = styled(LazyLoadImage)`
     border-radius: 14px;
     width: 100%;
@@ -88,10 +106,15 @@ const StyledImage = styled(LazyLoadImage)`
     }
 `;
 
-const ImageCard = ({ item }) => {
+const ImageCard = ({ item, onDelete }) => {
     const handleDownload = () => {
         if (item?.photo) {
             FileSaver.saveAs(item.photo, "download.jpg");
+        }
+    };
+    const handleDelete = () => {
+        if (onDelete && item?._id) {
+            onDelete(item._id);
         }
     };
 
@@ -110,7 +133,10 @@ const ImageCard = ({ item }) => {
                         <Avatar sx={{ width: "32px", height: "32px" }}>{item?.name?.[0] || "A"}</Avatar>
                         {item?.name || "Anonymous"}
                     </Author>
-                    <DownloadIcon onClick={handleDownload} />
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <DownloadIcon onClick={handleDownload} />
+                        <DeleteIcon onClick={handleDelete} />
+                    </div>
                 </div>
             </HoverOverlay>
         </Card>

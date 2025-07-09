@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
 import SearchBar from '../components/SearchBar';
 import ImageCard from '../components/ImageCard';
-import { GetPosts } from '../api/index.js';
+import { GetPosts, deletePost } from '../api/index.js';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const Container = styled.div`
@@ -63,12 +63,36 @@ const CardWrapper = styled.div`
     }
 `;
 
+const AboutSection = styled.section`
+    width: 100%;
+    max-width: 900px;
+    margin: 48px auto 0 auto;
+    padding: 32px 24px;
+    background: ${({ theme }) => theme.bgLight};
+    border-radius: 16px;
+    box-shadow: 0 2px 16px 0 ${({ theme }) => theme.black + '10'};
+    color: ${({ theme }) => theme.text_secondary};
+    text-align: center;
+    font-size: 1.1rem;
+`;
+
+const Footer = styled.footer`
+    width: 100%;
+    padding: 24px 0 12px 0;
+    text-align: center;
+    color: ${({ theme }) => theme.text_secondary};
+    background: ${({ theme }) => theme.bgLight};
+    margin-top: 40px;
+    font-size: 1rem;
+`;
+
 const Home = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [search, setSearch] = useState("");
     const [filteredPosts, setFilteredPosts] = useState([]);
+    const [deletingId, setDeletingId] = useState(null);
 
     const getPosts = async () => {
         setLoading(true);
@@ -101,6 +125,19 @@ const Home = () => {
         setFilteredPosts(searchFilteredPosts);
     }, [posts, search]);
 
+    const handleDelete = async (id) => {
+        setDeletingId(id);
+        try {
+            await deletePost(id);
+            setPosts((prev) => prev.filter((p) => p._id !== id));
+            setFilteredPosts((prev) => prev.filter((p) => p._id !== id));
+        } catch (err) {
+            setError(err?.response?.data?.message || 'Failed to delete post.');
+        } finally {
+            setDeletingId(null);
+        }
+    };
+
     return (
         <Container>
             <Headline>
@@ -118,12 +155,21 @@ const Home = () => {
                             <>No Posts Found</>
                         ) : (
                             filteredPosts.slice().reverse().map((item, index) => (
-                                <ImageCard key={index} item={item} />
+                                <ImageCard key={index} item={item} onDelete={handleDelete} deleting={deletingId === item._id} />
                             ))
                         )}
                     </CardWrapper>
                 )}
             </Wrapper>
+            <AboutSection>
+                <strong>About GenAI Image Generator</strong><br /><br />
+                GenAI is an AI-powered image generator that lets you create unique images from text prompts using advanced generative models. Enter a creative prompt, generate an image, and share it with the community!<br /><br />
+                <em>How it works:</em> Type a detailed description, generate an image, and post it for others to explore. You can also browse, download, and (now) delete images in the gallery.
+            </AboutSection>
+            <Footer>
+                © {new Date().getFullYear()} GenAI Image Generator &nbsp;|&nbsp;
+                <a href="https://github.com/your-repo" target="_blank" rel="noopener noreferrer" style={{ color: '#7c3aed', textDecoration: 'underline' }}>GitHub</a>
+            </Footer>
         </Container>
     );
 };
