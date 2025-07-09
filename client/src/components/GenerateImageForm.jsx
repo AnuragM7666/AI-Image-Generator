@@ -69,7 +69,6 @@ const GenerateImageForm = ({
         setGenerateImageLoading(true);
         setError("");  // Reset error state
         try {
-            console.log("Prompt being sent:", post.prompt); // Debug log
             const res = await GenerateImage({ prompt: post.prompt });
             setPost({ ...post, photo: `data:image/jpg;base64,${res?.data?.photo}` });
         } catch (error) {
