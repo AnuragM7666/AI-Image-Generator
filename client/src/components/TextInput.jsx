@@ -15,20 +15,41 @@ const Label = styled.label`
 `;
 
 const TextArea = styled.textarea`
-    padding: 8px;
-    border: 1px solid ${({ theme }) => theme.border_color || '#ccc'};
-    border-radius: 4px;
+    padding: 12px;
+    border: 1.5px solid ${({ theme }) => theme.accent || theme.primary || '#7c3aed'}33;
+    border-radius: 8px;
     font-size: 1rem;
+    background: ${({ theme }) => theme.card || '#23233a'};
+    color: ${({ theme }) => theme.text_primary || '#f4f4f5'};
+    box-shadow: 0 1px 4px 0 #0001;
+    transition: border 0.18s, box-shadow 0.18s;
+    outline: none;
+    resize: vertical;
+    &:focus {
+        border: 1.5px solid ${({ theme }) => theme.accent || theme.primary || '#7c3aed'};
+        box-shadow: 0 2px 8px 0 ${({ theme }) => theme.accent + '22' || theme.primary + '22' || '#7c3aed22'};
+        background: ${({ theme }) => theme.bgLight || '#23233a'};
+    }
 `;
 
 const Input = styled.input`
-    padding: 8px;
-    border: 1px solid ${({ theme }) => theme.border_color || '#ccc'};
-    border-radius: 4px;
+    padding: 12px;
+    border: 1.5px solid ${({ theme }) => theme.accent || theme.primary || '#7c3aed'}33;
+    border-radius: 8px;
     font-size: 1rem;
+    background: ${({ theme }) => theme.card || '#23233a'};
+    color: ${({ theme }) => theme.text_primary || '#f4f4f5'};
+    box-shadow: 0 1px 4px 0 #0001;
+    transition: border 0.18s, box-shadow 0.18s;
+    outline: none;
+    &:focus {
+        border: 1.5px solid ${({ theme }) => theme.accent || theme.primary || '#7c3aed'};
+        box-shadow: 0 2px 8px 0 ${({ theme }) => theme.accent + '22' || theme.primary + '22' || '#7c3aed22'};
+        background: ${({ theme }) => theme.bgLight || '#23233a'};
+    }
 `;
 
-const TextInput = ({ label, placeholder, name, value, handleChange, textArea, rows }) => (
+const TextInput = ({ label, placeholder, name, value, handleChange, textArea = false, rows = "1" }) => (
     <InputContainer>
         <Label>{label}</Label>
         {textArea ? (
@@ -59,11 +80,6 @@ TextInput.propTypes = {
     handleChange: PropTypes.func.isRequired,
     textArea: PropTypes.bool,
     rows: PropTypes.string,
-};
-
-TextInput.defaultProps = {
-    textArea: false,
-    rows: "1",
 };
 
 export default TextInput;

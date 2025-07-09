@@ -22,9 +22,15 @@ const Top = styled.div`
 `;
 
 const Title = styled.div`
-    font-size: 28px;
-    font-weight: 500;
-    color: ${({ theme }) => theme.text_primary};
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, #7c3aed, #38bdf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    font-family: 'Inter', 'Poppins', 'Montserrat', sans-serif;
+    margin-bottom: 10px;
 `;
 
 const Desc = styled.div`
@@ -63,6 +69,7 @@ const GenerateImageForm = ({
         setGenerateImageLoading(true);
         setError("");  // Reset error state
         try {
+            console.log("Prompt being sent:", post.prompt); // Debug log
             const res = await GenerateImage({ prompt: post.prompt });
             setPost({ ...post, photo: `data:image/jpg;base64,${res?.data?.photo}` });
         } catch (error) {

@@ -6,17 +6,16 @@ import { GetPosts } from '../api/index.js';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const Container = styled.div`
-    height: 100%;
-    overflow-y: scroll;
-    background: #1a1a1a;
-    padding: 30px;
-    padding-bottom: 50px;
+    min-height: 100vh;
+    width: 100%;
+    padding: 30px 0 50px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    background: none;
     @media (max-width: 768px) {
-        padding: 6px 10px;
+        padding: 12px 0;
     }
 `;
 
@@ -51,14 +50,15 @@ const Wrapper = styled.div`
 
 const CardWrapper = styled.div`
     display: grid;
-    gap: 20px;
-    @media (min-width: 1200px) {
-        grid-template-columns: repeat(4, 1fr);
-    }
-    @media (max-width: 640px) {
+    gap: 32px;
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
+    @media (max-width: 900px) {
+        gap: 20px;
         grid-template-columns: repeat(2, 1fr);
     }
-    @media (max-width: 639px) {
+    @media (max-width: 600px) {
+        gap: 12px;
         grid-template-columns: repeat(1, 1fr);
     }
 `;

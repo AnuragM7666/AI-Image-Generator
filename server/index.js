@@ -36,12 +36,12 @@ app.get("/", async (req, res) => {
 // function to connect to MongoDB
 const connectDB = () => {
     mongoose.set("strictQuery", true);
-    mongoose.connect(process.env.MONGO_URL)
-        .then(() => console.log("MongoDB Connected"))
-        .catch((err) => {
-            console.error("Failed to connect to DB");
-            console.error(err);
-        });
+    mongoose.connect(process.env.MONGO_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+        .then(() => console.log('MongoDB connected!'))
+        .catch(err => console.error(err));
 };
 
 // function to start the server

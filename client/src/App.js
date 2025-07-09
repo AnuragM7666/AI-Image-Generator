@@ -8,23 +8,27 @@ import { ThemeProvider } from 'styled-components';
 import { Routes, Route } from 'react-router-dom';
 
 const Container = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  min-height: 100vh;
   display: flex;
-  background: ${({ theme }) => theme.bg};
+  background: linear-gradient(135deg, ${({ theme }) => theme.bg}, ${({ theme }) => theme.bgLight});
   color: ${({ theme }) => theme.text_primary};
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: auto;
   transition: all 0.2s ease;
 `;
 
 const Wrapper = styled.div`
-  height: 100%;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   flex: 3;
+  padding: 32px 16px 16px 16px;
 `;
 
 function App() {

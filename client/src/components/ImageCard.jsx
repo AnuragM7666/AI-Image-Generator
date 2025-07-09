@@ -8,17 +8,16 @@ import FileSaver from "file-saver";
 const Card = styled.div`
     position: relative;
     display: flex;
-    border-radius: 20px;
-    box-shadow: 1px 2px 40px 8px ${({ theme }) => theme.black + '60'};
+    border-radius: 18px;
+    box-shadow: 0 4px 32px 0 ${({ theme }) => theme.black + '30'};
+    border: 1.5px solid ${({ theme }) => theme.card_light || '#e5e7eb'};
+    background: ${({ theme }) => theme.card};
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: box-shadow 0.25s, transform 0.18s;
+    overflow: hidden;
     &:hover {
-        box-shadow: 1px 2px 40px 8px ${({ theme }) => theme.black + '80'};
-        transform: scale(1.05);
-    }
-    &:nth-child(7n + 1) {
-        grid-column: auto / span 2;
-        grid-row: auto / span 2;
+        box-shadow: 0 8px 40px 0 ${({ theme }) => theme.primary + '50'};
+        transform: translateY(-4px) scale(1.03);
     }
 `;
 
@@ -33,14 +32,13 @@ const HoverOverlay = styled.div`
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
-    backdrop-filter: blur(2px);
-    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2.5px);
+    background: linear-gradient(180deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.65) 100%);
     color: ${({ theme }) => theme.white};
-    transition: opacity 0.3s ease;
-    border-radius: 6px;
+    transition: opacity 0.25s;
+    border-radius: 18px;
     justify-content: flex-end;
-    padding: 12px;
-
+    padding: 18px 14px;
     ${Card}:hover & {
         opacity: 1;
     }
@@ -50,6 +48,7 @@ const Prompt = styled.div`
     font-weight: 400;
     font-size: 15px;
     color: ${({ theme }) => theme.white};
+    text-shadow: 0 1px 4px rgba(0,0,0,0.18);
 `;
 
 const Author = styled.div`
@@ -61,6 +60,34 @@ const Author = styled.div`
     color: ${({ theme }) => theme.white};
 `;
 
+const DownloadIcon = styled(DownloadRounded)`
+    && {
+        color: ${({ theme }) => theme.accent || theme.primary};
+        background: ${({ theme }) => theme.white};
+        border-radius: 50%;
+        padding: 4px;
+        font-size: 2rem;
+        box-shadow: 0 2px 8px 0 ${({ theme }) => theme.primary + '20'};
+        transition: background 0.2s, color 0.2s;
+        cursor: pointer;
+        &:hover {
+            background: ${({ theme }) => theme.accent};
+            color: ${({ theme }) => theme.white};
+        }
+    }
+`;
+
+const StyledImage = styled(LazyLoadImage)`
+    border-radius: 14px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    background: ${({ theme }) => theme.bgLight};
+    @media (max-width: 600px) {
+        aspect-ratio: 1 / 1;
+    }
+`;
+
 const ImageCard = ({ item }) => {
     const handleDownload = () => {
         if (item?.photo) {
@@ -70,7 +97,7 @@ const ImageCard = ({ item }) => {
 
     return (
         <Card>
-            <LazyLoadImage alt={item?.prompt || "Image"} style={{ borderRadius: "12px" }} width="100%" src={item?.photo} />
+            <StyledImage alt={item?.prompt || "Image"} src={item?.photo} />
             <HoverOverlay>
                 <Prompt>{item?.prompt || "Default prompt text"}</Prompt>
                 <div style={{
@@ -83,7 +110,7 @@ const ImageCard = ({ item }) => {
                         <Avatar sx={{ width: "32px", height: "32px" }}>{item?.name?.[0] || "A"}</Avatar>
                         {item?.name || "Anonymous"}
                     </Author>
-                    <DownloadRounded onClick={handleDownload} />
+                    <DownloadIcon onClick={handleDownload} />
                 </div>
             </HoverOverlay>
         </Card>
