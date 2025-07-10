@@ -8,7 +8,16 @@ import GenerateImageRouter from "./routes/GenerateImage.js";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// CORS configuration for production
+const corsOptions = {
+    origin: process.env.NODE_ENV === 'production' 
+        ? [process.env.FRONTEND_URL || 'https://your-netlify-app.netlify.app'] 
+        : ['http://localhost:3000'],
+    credentials: true
+};
+
+app.use(cors(corsOptions));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
 
@@ -48,7 +57,8 @@ const connectDB = () => {
 const startServer = async () => {
     try {
         connectDB();
-        app.listen(8080, () => console.log("Server is listening on port 8080"));
+        const PORT = process.env.PORT || 8080;
+        app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
     } catch (error) {
         console.log(error);
     }

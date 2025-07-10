@@ -168,7 +168,7 @@ const Home = () => {
             </AboutSection>
             <Footer>
                 © {new Date().getFullYear()} GenAI Image Generator &nbsp;|&nbsp;
-                <a href="https://github.com/your-repo" target="_blank" rel="noopener noreferrer" style={{ color: '#7c3aed', textDecoration: 'underline' }}>GitHub</a>
+                <a href="https://github.com/AnuragM7666/AI-Image-Generator" target="_blank" rel="noopener noreferrer" style={{ color: '#7c3aed', textDecoration: 'underline' }}>GitHub</a>
             </Footer>
         </Container>
     );
